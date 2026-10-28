@@ -18,12 +18,12 @@ enum PricingMode {
   final String label;
 }
 
-enum RepeatMode {
+enum TripRepeat {
   oneTime('One-time'),
   daily('Daily'),
   weekdays('Chosen weekdays');
 
-  const RepeatMode(this.label);
+  const TripRepeat(this.label);
   final String label;
 }
 
@@ -111,7 +111,7 @@ class Trip {
   final String from;
   final String to;
   final DateTime departure;
-  final RepeatMode repeat;
+  final TripRepeat repeat;
 
   /// 1 = Monday ... 7 = Sunday (same as DateTime.weekday).
   final Set<int> weekdays;
