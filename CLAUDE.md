@@ -42,7 +42,8 @@
 
 ## Decisions made by Claude Code
 - Git exists at `C:\Program Files\Git\cmd` but was not on PATH; added it to the USER PATH (Flutter needs git).
-- State management: plain `ChangeNotifier` + `ListenableBuilder` (no extra packages) to keep it simple for a beginner.
+- State management: plain `ChangeNotifier` (`AppState`) shared through an `InheritedNotifier` (`AppScope`), and
+  screens load data with the `RepoBuilder` widget, which reloads when the repository changes. No extra packages.
 - Money stored as whole rupees (`int`), never doubles. Rounding up uses integer math.
 - Ledger amounts are per rider-driver pair: positive = rider owes driver, negative = driver owes rider (credit).
 - Duplicate payment = same rider, driver, amount, method within 10 seconds → rejected.
