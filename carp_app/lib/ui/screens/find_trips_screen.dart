@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/carp_repository.dart';
 import '../app_state.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 import '../widgets/trip_card.dart';
 import 'trip_details_screen.dart';

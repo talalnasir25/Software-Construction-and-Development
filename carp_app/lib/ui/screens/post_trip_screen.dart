@@ -6,7 +6,7 @@ import '../../domain/money_rules.dart';
 import '../../domain/trip_draft.dart';
 import '../app_state.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 
 /// Driver: post a new trip. All checks come from TripValidator.
@@ -111,7 +111,7 @@ class _PostTripScreenState extends State<PostTripScreen> {
   void _showLimitDialog() => showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
-          icon: const Icon(Icons.workspace_premium_outlined, size: 40, color: CarpColors.accent),
+          icon: Icon(Icons.workspace_premium_outlined, size: 40, color: ctx.palette.highlight),
           title: const Text('Daily limit reached'),
           content: const Text(TripLimitRule.limitMessage, textAlign: TextAlign.center),
           actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('OK'))],

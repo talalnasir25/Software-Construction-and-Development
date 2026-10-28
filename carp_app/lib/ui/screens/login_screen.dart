@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain/models.dart';
 import '../app_state.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 
 /// DEMO login: any email + password works.
@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final scheme = theme.colorScheme;
 
     return Scaffold(
+      appBar: AppBar(actions: const [ThemeToggleButton(), SizedBox(width: Gap.s)]),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     BusyButton(label: 'Log in', icon: Icons.login, onPressed: _login),
                     const SizedBox(height: Gap.l),
                     Card(
-                      color: scheme.tertiaryContainer.withValues(alpha: 0.5),
+                      color: scheme.tertiaryContainer,
                       child: Padding(
                         padding: const EdgeInsets.all(Gap.m),
                         child: Column(

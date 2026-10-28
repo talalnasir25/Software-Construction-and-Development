@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/carp_repository.dart';
 import '../../domain/models.dart';
 import '../app_state.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 import '../widgets/payment_dialog.dart';
 import 'trip_details_screen.dart';
@@ -50,7 +50,7 @@ class DriverMoneyScreen extends StatelessWidget {
                         actions: Row(mainAxisSize: MainAxisSize.min, children: [
                           IconButton(
                             tooltip: 'Reject',
-                            icon: const Icon(Icons.close, color: CarpColors.owes),
+                            icon: Icon(Icons.close, color: context.palette.owes),
                             onPressed: () => runAction(context, () => app.repo.rejectPayment(p.payment.id),
                                 success: 'Payment rejected.'),
                           ),

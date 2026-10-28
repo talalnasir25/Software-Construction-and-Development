@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../domain/models.dart';
 import '../../domain/trip_draft.dart';
+import '../../theme/theme_controller.dart';
 import '../app_state.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 
 /// Profile and settings, plus the "Demo: switch user" helper.
@@ -54,6 +55,17 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
+          const SectionTitle('Appearance'),
+          Card(
+            child: SwitchListTile(
+              secondary: Icon(ThemeController.isDark(context) ? Icons.dark_mode : Icons.light_mode),
+              title: const Text('Dark mode'),
+              subtitle: const Text('Same as the sun/moon button at the top'),
+              value: ThemeController.isDark(context),
+              onChanged: app.theme.setDark,
+            ),
+          ),
+
           const SectionTitle('Language'),
           Card(
             child: RadioGroup<String>(
@@ -68,11 +80,11 @@ class ProfileScreen extends StatelessWidget {
 
           const SizedBox(height: Gap.l),
           Card(
-            color: CarpColors.accent.withValues(alpha: 0.15),
-            child: const ListTile(
-              leading: Icon(Icons.workspace_premium, color: CarpColors.accent, size: 32),
-              title: Text('Carp Pro – Coming soon', style: TextStyle(fontWeight: FontWeight.w700)),
-              subtitle: Text('More than 2 trips per day, priority listing and more.'),
+            color: context.palette.highlight.withValues(alpha: 0.15),
+            child: ListTile(
+              leading: Icon(Icons.workspace_premium, color: context.palette.highlight, size: 32),
+              title: const Text('Carp Pro – Coming soon', style: TextStyle(fontWeight: FontWeight.w700)),
+              subtitle: const Text('More than 2 trips per day, priority listing and more.'),
             ),
           ),
 
@@ -87,7 +99,7 @@ class ProfileScreen extends StatelessWidget {
                     title: Text(u.name),
                     subtitle: Text(u.vehicleType == null ? 'Rider' : 'Driver · ${u.vehicleType!.label}'),
                     trailing: u.id == user.id
-                        ? const StatusPill('You', color: CarpColors.seed)
+                        ? StatusPill('You', color: Theme.of(context).colorScheme.primary)
                         : const Icon(Icons.swap_horiz),
                     onTap: u.id == user.id ? null : () => app.signIn(u),
                   ),

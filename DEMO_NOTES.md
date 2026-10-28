@@ -60,6 +60,15 @@ Before step 5 (or after pressing `R` to reset): as Usman, open **G-11 Markaz** i
 
 ---
 
+## Theme
+
+- **Sun/moon button** at the top right of the login screen and every main tab: one tap switches light ↔ dark.
+- **Profile → Appearance → "Dark mode"** switch does the same thing and stays in sync with the button.
+- The choice is remembered after closing the browser. On first launch the app follows the browser/device setting.
+- All colors live in `carp_app/lib/theme/app_theme.dart` (bright blue, orange, green, amber and red, with a navy dark mode).
+
+---
+
 ## 3. What is real vs fake
 
 | Real (working logic) | Fake / demo only |

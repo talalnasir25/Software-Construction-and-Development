@@ -2,14 +2,18 @@ import 'package:flutter/widgets.dart';
 
 import '../data/carp_repository.dart';
 import '../domain/models.dart';
+import '../theme/theme_controller.dart';
 
 enum AppMode { rider, driver }
 
 /// Who is logged in and which mode they use. Shared by the whole app.
 class AppState extends ChangeNotifier {
-  AppState(this.repo);
+  AppState(this.repo, {ThemeController? theme}) : theme = theme ?? ThemeController() {
+    this.theme.addListener(notifyListeners); // rebuild screens when the theme flips
+  }
 
   final CarpRepository repo;
+  final ThemeController theme;
   AppUser? user;
   AppMode mode = AppMode.rider;
 

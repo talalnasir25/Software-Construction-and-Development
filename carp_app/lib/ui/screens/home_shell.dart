@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 import 'driver_money_screen.dart';
 import 'driver_trips_screen.dart';
@@ -63,18 +63,26 @@ class _HomeShellState extends State<HomeShell> {
     final tabs = _tabs(app.mode);
     final index = _index.clamp(0, tabs.length - 1);
     final tab = tabs[index];
+    final narrow = MediaQuery.sizeOf(context).width < 480; // hide segment icons on phones
 
     return Scaffold(
       appBar: AppBar(
         title: Text(tab.label),
         actions: [
+          const ThemeToggleButton(),
           Padding(
             padding: const EdgeInsets.only(right: Gap.m),
             child: SegmentedButton<AppMode>(
               showSelectedIcon: false,
-              segments: const [
-                ButtonSegment(value: AppMode.rider, label: Text('Rider'), icon: Icon(Icons.person_pin_circle_outlined)),
-                ButtonSegment(value: AppMode.driver, label: Text('Driver'), icon: Icon(Icons.drive_eta_outlined)),
+              segments: [
+                ButtonSegment(
+                    value: AppMode.rider,
+                    label: const Text('Rider'),
+                    icon: narrow ? null : const Icon(Icons.person_pin_circle_outlined)),
+                ButtonSegment(
+                    value: AppMode.driver,
+                    label: const Text('Driver'),
+                    icon: narrow ? null : const Icon(Icons.drive_eta_outlined)),
               ],
               selected: {app.mode},
               onSelectionChanged: (s) {

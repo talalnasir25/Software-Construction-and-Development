@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'data/in_memory_repository.dart';
+import 'theme/app_theme.dart';
+import 'theme/theme_controller.dart';
 import 'ui/app_state.dart';
 import 'ui/screens/home_shell.dart';
 import 'ui/screens/login_screen.dart';
-import 'ui/theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final theme = await ThemeController.load(); // saved light/dark choice
   // Swap InMemoryCarpRepository for an API-backed repository later.
-  final state = AppState(InMemoryCarpRepository());
+  final state = AppState(InMemoryCarpRepository(), theme: theme);
   runApp(CarpApp(state: state));
 }
 
@@ -21,12 +24,17 @@ class CarpApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScope(
       state: state,
-      child: MaterialApp(
-        title: 'Carp',
-        debugShowCheckedModeBanner: false,
-        theme: buildTheme(Brightness.light),
-        darkTheme: buildTheme(Brightness.dark),
-        home: const _Root(),
+      child: ListenableBuilder(
+        listenable: state.theme,
+        builder: (context, _) => MaterialApp(
+          title: 'Carp',
+          debugShowCheckedModeBanner: false,
+          theme: buildTheme(Brightness.light),
+          darkTheme: buildTheme(Brightness.dark),
+          themeMode: state.theme.mode,
+          themeAnimationDuration: const Duration(milliseconds: 150),
+          home: const _Root(),
+        ),
       ),
     );
   }

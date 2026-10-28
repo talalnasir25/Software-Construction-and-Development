@@ -4,7 +4,7 @@ import '../../data/carp_repository.dart';
 import '../../domain/models.dart';
 import '../app_state.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 import '../widgets/payment_dialog.dart';
 import 'trip_details_screen.dart';
@@ -138,9 +138,9 @@ class PaymentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final pay = p.payment;
     final pill = switch (pay.status) {
-      PaymentStatus.pending => const StatusPill('Pending', color: CarpColors.accent),
-      PaymentStatus.confirmed => const StatusPill('Confirmed', color: CarpColors.credit),
-      PaymentStatus.rejected => const StatusPill('Rejected', color: CarpColors.owes),
+      PaymentStatus.pending => StatusPill('Pending', color: context.palette.warningText),
+      PaymentStatus.confirmed => StatusPill('Confirmed', color: context.palette.successText),
+      PaymentStatus.rejected => StatusPill('Rejected', color: context.palette.owesText),
     };
     final who = showDriver ? 'to ${p.driver.name}' : (showRider ? 'from ${p.rider.name}' : '');
     return ListTile(

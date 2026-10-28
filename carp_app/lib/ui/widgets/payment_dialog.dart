@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/carp_repository.dart';
 import '../../domain/models.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 
 /// Asks for amount + method. [onSubmit] does the actual save and may throw
 /// a CarpException (e.g. duplicate payment), which is shown in the dialog.
@@ -89,7 +89,7 @@ class _PaymentDialogState extends State<_PaymentDialog> {
             if (over > 0)
               Padding(
                 padding: const EdgeInsets.only(top: Gap.xs),
-                child: Text('${rs(over)} extra will become credit.', style: const TextStyle(color: CarpColors.credit)),
+                child: Text('${rs(over)} extra will become credit.', style: TextStyle(color: context.palette.successText)),
               ),
             const SizedBox(height: Gap.m),
             const Text('Paid via'),

@@ -5,7 +5,7 @@ import '../../domain/models.dart';
 import '../../domain/money_rules.dart';
 import '../app_state.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import '../widgets/common.dart';
 import '../widgets/trip_card.dart';
 
@@ -63,7 +63,7 @@ class TripDetailsScreen extends StatelessWidget {
                     child: Column(children: [
                       for (final d in v.disputes)
                         ListTile(
-                          leading: const Icon(Icons.report_outlined, color: CarpColors.owes),
+                          leading: Icon(Icons.report_outlined, color: context.palette.owes),
                           title: Text('${d.rider.name} disputed ${rs(d.entry.amount)}'),
                           subtitle: Text('"${d.dispute.reason}" · ${timeAgo(d.dispute.createdAt)}'),
                         ),
@@ -96,7 +96,7 @@ class _Summary extends StatelessWidget {
           children: [
             Row(children: [
               Expanded(child: Text(formatDateTime(t.departure), style: theme.textTheme.titleMedium)),
-              tripStatusPill(v),
+              tripStatusPill(context, v),
             ]),
             const SizedBox(height: Gap.s),
             Text('${t.from}  →  ${t.to}',
@@ -204,7 +204,7 @@ class _RiderPanel extends StatelessWidget {
         child: Card(
           child: ListTile(
             leading: Icon(present ? Icons.check_circle : Icons.cancel_outlined,
-                color: present ? CarpColors.credit : scheme.outline),
+                color: present ? context.palette.success : scheme.outline),
             title: Text(t.status == TripStatus.cancelled
                 ? 'The driver cancelled this trip'
                 : 'Driver marked you ${present ? 'PRESENT' : 'ABSENT'}'),
@@ -228,10 +228,10 @@ class _RiderPanel extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Row(children: [
-                Icon(Icons.check_circle, color: CarpColors.credit),
-                SizedBox(width: Gap.s),
-                Text("You're on this trip", style: TextStyle(fontWeight: FontWeight.w700)),
+              Row(children: [
+                Icon(Icons.check_circle, color: context.palette.success),
+                const SizedBox(width: Gap.s),
+                const Text("You're on this trip", style: TextStyle(fontWeight: FontWeight.w700)),
               ]),
               const SizedBox(height: Gap.s),
               Text('Joined ${timeAgo(mine.booking.joinedAt)}. Your share right now: ${rs(view.currentShare)}.'),
@@ -239,7 +239,7 @@ class _RiderPanel extends StatelessWidget {
                 penalty == 0
                     ? 'Free cancellation for about ${freeLeft.inMinutes + 1} more min.'
                     : 'Cancelling now costs ${rs(penalty)} (10% of your share), paid to the driver.',
-                style: TextStyle(color: penalty == 0 ? CarpColors.credit : CarpColors.owes),
+                style: TextStyle(color: penalty == 0 ? context.palette.successText : context.palette.owesText),
               ),
               const SizedBox(height: Gap.m),
               BusyButton(
@@ -459,7 +459,7 @@ class EntryTile extends StatelessWidget {
             entry.amount > 0 ? '+${rs(entry.amount)}' : rs(entry.amount),
             style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: entry.amount > 0 ? CarpColors.owes : CarpColors.credit,
+              color: entry.amount > 0 ? context.palette.owesText : context.palette.successText,
             ),
           ),
           if (canDispute)

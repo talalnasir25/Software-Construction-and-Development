@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../data/carp_repository.dart';
+import '../../theme/theme_controller.dart';
 import '../app_state.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 
 /// Loads data from the repository and shows loading / error / content.
 /// Reloads automatically whenever the repository changes.
@@ -80,6 +81,22 @@ class _RepoBuilderState<T> extends State<RepoBuilder<T>> {
   }
 }
 
+/// Sun/moon button for the app bar: one tap flips light <-> dark.
+class ThemeToggleButton extends StatelessWidget {
+  const ThemeToggleButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final app = AppScope.of(context);
+    final dark = ThemeController.isDark(context);
+    return IconButton(
+      tooltip: dark ? 'Switch to light mode' : 'Switch to dark mode',
+      icon: Icon(dark ? Icons.light_mode : Icons.dark_mode),
+      onPressed: () => app.theme.setDark(!dark),
+    );
+  }
+}
+
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
 
@@ -151,7 +168,13 @@ class ComingSoonView extends StatelessWidget {
         icon: icon,
         title: title,
         message: message,
-        action: const Chip(label: Text('Coming soon'), avatar: Icon(Icons.schedule, size: 18)),
+        action: Chip(
+          label: Text('Coming soon',
+              style: TextStyle(color: context.palette.highlightText, fontWeight: FontWeight.w700)),
+          avatar: Icon(Icons.schedule, size: 18, color: context.palette.highlight),
+          backgroundColor: context.palette.highlight.withValues(alpha: 0.15),
+          side: BorderSide(color: context.palette.highlight),
+        ),
       );
 }
 
@@ -224,10 +247,10 @@ class BalanceText extends StatelessWidget {
   Widget build(BuildContext context) {
     final base = style ?? Theme.of(context).textTheme.bodyMedium!;
     if (balance > 0) {
-      return Text('$owesLabel ${rs(balance)}', style: base.copyWith(color: CarpColors.owes, fontWeight: FontWeight.w700));
+      return Text('$owesLabel ${rs(balance)}', style: base.copyWith(color: context.palette.owesText, fontWeight: FontWeight.w700));
     }
     if (balance < 0) {
-      return Text('credit ${rs(-balance)}', style: base.copyWith(color: CarpColors.credit, fontWeight: FontWeight.w700));
+      return Text('credit ${rs(-balance)}', style: base.copyWith(color: context.palette.successText, fontWeight: FontWeight.w700));
     }
     return Text('settled', style: base.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant));
   }

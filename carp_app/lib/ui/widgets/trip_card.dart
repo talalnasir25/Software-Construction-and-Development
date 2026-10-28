@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/carp_repository.dart';
 import '../../domain/models.dart';
 import '../format.dart';
-import '../theme.dart';
+import '../../theme/app_theme.dart';
 import 'common.dart';
 
 /// Price explanation used on cards and the details screen.
@@ -23,12 +23,13 @@ String repeatLabel(Trip t) => switch (t.repeat) {
     };
 
 /// Status pill for a trip (Open / Full / Confirmed / Edited / Cancelled).
-Widget tripStatusPill(TripView v) => switch (v.trip.status) {
-      TripStatus.cancelled => const StatusPill('Cancelled', color: Colors.grey),
-      TripStatus.confirmed when v.trip.isEdited => const StatusPill('Confirmed · Edited', color: CarpColors.accent),
-      TripStatus.confirmed => const StatusPill('Confirmed', color: CarpColors.credit),
-      TripStatus.open when v.isFull => const StatusPill('Full', color: CarpColors.owes),
-      TripStatus.open => const StatusPill('Open', color: CarpColors.seed),
+Widget tripStatusPill(BuildContext context, TripView v) => switch (v.trip.status) {
+      TripStatus.cancelled => StatusPill('Cancelled', color: context.colors.onSurfaceVariant),
+      TripStatus.confirmed when v.trip.isEdited =>
+        StatusPill('Confirmed · Edited', color: context.palette.highlightText),
+      TripStatus.confirmed => StatusPill('Confirmed', color: context.palette.successText),
+      TripStatus.open when v.isFull => StatusPill('Full', color: context.palette.owesText),
+      TripStatus.open => StatusPill('Open', color: context.colors.primary),
     };
 
 class TripCard extends StatelessWidget {
@@ -62,7 +63,7 @@ class TripCard extends StatelessWidget {
                     child: Text(formatDateTime(t.departure),
                         style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700)),
                   ),
-                  tripStatusPill(view),
+                  tripStatusPill(context, view),
                 ],
               ),
               const SizedBox(height: Gap.m),

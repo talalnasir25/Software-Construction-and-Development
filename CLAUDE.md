@@ -65,4 +65,16 @@
 - Flutter has its own `RepeatMode` class, so the trip repeat enum is named `TripRepeat`.
 - Login validates only "has @" and "password not empty" (demo). Unknown emails create a new user on the fly.
 - No extra packages (no provider, intl, google_fonts) so the demo works offline once built.
+  Exception: `shared_preferences` (owner asked for it) to remember the dark/light choice.
+- Theme: ALL colors are in `lib/theme/app_theme.dart`. Screens use `Theme.of(context).colorScheme` or
+  `context.palette` (a `CarpPalette` ThemeExtension for success/warning/owes/highlight). No hard-coded colors elsewhere.
+- In LIGHT mode, small text uses deeper shades of the brand colors (green #047857, amber #B45309, red #DC2626,
+  orange #C2410C) because the exact brand colors are too pale on white (e.g. #10B981 ≈ 2.5:1). Icons, badges and
+  fills use the exact brand colors. Dark mode uses brighter versions for both.
+- Text on orange (#FF8A00) and on the bright dark-mode colors is dark, not white, for contrast.
+- The "Post a trip" button uses primary blue (main action), not orange.
+- Theme choice: `ThemeController` (lib/theme/theme_controller.dart), stored under key `carp.darkMode`.
+  No saved value = follow the device. The sun/moon button is on the login screen and the main tabs (not on
+  pushed pages like Trip details / Post a trip, which have a back button instead).
+- On phones (< 480 px wide) the Rider/Driver switch hides its icons to make room for the sun/moon button.
 - Fake network delay (350 ms) in the in-memory repository so loading states are visible.
