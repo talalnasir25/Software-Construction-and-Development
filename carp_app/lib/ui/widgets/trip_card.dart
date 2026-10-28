@@ -88,8 +88,13 @@ class TripCard extends StatelessWidget {
                     Expanded(child: Text(view.driver.name, style: muted, overflow: TextOverflow.ellipsis)),
                   ] else
                     const Spacer(),
-                  Text(priceLabel(view, forNewRider: forNewRider),
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+                  const SizedBox(width: Gap.s),
+                  Flexible(
+                    flex: 2,
+                    child: Text(priceLabel(view, forNewRider: forNewRider),
+                        textAlign: TextAlign.end,
+                        style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+                  ),
                 ],
               ),
             ],

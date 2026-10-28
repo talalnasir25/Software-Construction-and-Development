@@ -46,7 +46,22 @@
 - Money stored as whole rupees (`int`), never doubles. Rounding up uses integer math.
 - Ledger amounts are per rider-driver pair: positive = rider owes driver, negative = driver owes rider (credit).
 - Duplicate payment = same rider, driver, amount, method within 10 seconds → rejected.
-- A trip's "calendar day" for the 2-per-day limit = the trip's departure date (not the posting date).
+- 2-trips-per-day limit counts trips by the day they were POSTED (createdAt), and cancelled trips still count
+  (stops cancel-and-repost). Seed data gives Ayesha 1 post today, so the 2nd post works and the 3rd is blocked.
 - Repeating trips are stored as one trip with a repeat rule (not expanded into many trips) for the demo.
-- Rider share for TOTAL SPLIT shown on browse = share if this rider joins (ceil(total / (joined + 1 + 1))).
+- Rider share for TOTAL SPLIT shown on browse = share if this rider joins (ceil(total / (joined + 2))).
+  Final charge is set only when the driver confirms attendance (present riders + driver).
+- Rider cancel exactly at 10:00 minutes is still free ("within 10 minutes"); penalty starts after.
+- Riders can only cancel / the driver can only cancel while the trip is still open (not after confirming).
+- Attendance edit only touches riders whose charge changed: reversal of the old charge + a new charge.
 - Disputes do not change money; they are only listed on the trip for the driver/admin to review.
+- Riders only see their own charges on a trip; the driver sees everyone's.
+- "I paid" (rider) = PENDING, does not change the balance until the driver confirms. Driver can also reject.
+  "Record payment" (driver) = confirmed immediately.
+- Double tap protection in two places: buttons disable while saving, and `PaymentGuard` rejects a payment with the
+  same rider, driver, amount and method within 10 seconds.
+- Users with a vehicle start in Driver mode after login, others in Rider mode. The switch is in the top bar.
+- Flutter has its own `RepeatMode` class, so the trip repeat enum is named `TripRepeat`.
+- Login validates only "has @" and "password not empty" (demo). Unknown emails create a new user on the fly.
+- No extra packages (no provider, intl, google_fonts) so the demo works offline once built.
+- Fake network delay (350 ms) in the in-memory repository so loading states are visible.
