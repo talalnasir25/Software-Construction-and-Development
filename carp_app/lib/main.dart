@@ -47,9 +47,8 @@ class _Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = AppScope.of(context).user;
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 250),
-      child: user == null ? const LoginScreen() : HomeShell(key: ValueKey(user.id)),
-    );
+    // No fade animation here: a fading-out home screen would rebuild with
+    // user == null after logout and crash.
+    return user == null ? const LoginScreen() : HomeShell(key: ValueKey(user.id));
   }
 }
